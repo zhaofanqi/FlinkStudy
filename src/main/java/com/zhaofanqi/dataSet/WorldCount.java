@@ -18,7 +18,7 @@ public class WorldCount {
         // 创建执行文件
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
         // 确定文件位置
-        String inputFilePath = "E:\\workspace\\FlinkStudy\\src\\main\\resources\\hello.txt";
+        String inputFilePath = "./src/main/resources/hello.txt";
         // 读取数据 DataSet 是 底层抽象类
         DataSource<String> dataSource = env.readTextFile(inputFilePath);
         // 对数据进行切分
