@@ -6,7 +6,11 @@
 
     <groupId>com.zhaofanqi</groupId>
     <artifactId>FlinkStudy</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>flink</module>
+    </modules>
 
     <dependencies>
         <dependency>
