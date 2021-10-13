@@ -1,9 +1,7 @@
-package com.zhaofanqi.Streaming;
+package demo;
 
-import com.zhaofanqi.dataSet.MyFlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
@@ -19,7 +17,7 @@ public class StreamingWorldCount {
         System.out.println(env.getConfig());
         env.setParallelism(10);// 即使超过实际的核数，也会按照最大的核数进行计算
         // 定义文件源
-        String filePath = "E:\\workspace\\FlinkStudy\\src\\main\\resources\\hello.txt";
+        String filePath = "flink/src/main/resources/hello.txt";
         // 针对获取的数据进行分词  汇总
 
         DataStream<Tuple2<String, Integer>> resultStream = env.readTextFile(filePath).flatMap(new MyFlatMapFunction()).keyBy(0).sum(1);
