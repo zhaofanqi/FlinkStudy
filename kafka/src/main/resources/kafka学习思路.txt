@@ -1,0 +1,12 @@
+kafka作为消息中间件
+
+kafka 生产者 生产数据
+kafka 消费者 消费数据
+
+kafka 手动控制消费 offset
+kafka 生产速度与消费速度测试
+
+kafka模拟出现积压
+
+kafka的source
+kafka的sink
