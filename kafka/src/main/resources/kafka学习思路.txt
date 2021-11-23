@@ -10,3 +10,14 @@ kafka模拟出现积压
 
 kafka的source
 kafka的sink
+
+
+代码练习：
+	1 基础的 kafka producer  和 consumer 编写
+	2 kafka 的 producer 和 consumer  常用参数设置并理解含义
+	3 kafka 的 低级API 使用
+	4 seek poll 的使用
+	5 运维角度看： 查看消费者组的情况
+				  消息是否存在堆积
+				  消费信息的速度与生产速度的比对
+				  当生产速度>>消费速度 时 怎么解决
