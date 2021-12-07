@@ -21,7 +21,7 @@ public class Company {
     private String companyName;
     private String companyAddress;
 
-    public String getCompanyName() {
+   /* public String getCompanyName() {
         return companyName;
     }
 
@@ -43,7 +43,7 @@ public class Company {
     public Company(String companyName, String companyAddress) {
         this.companyName = companyName;
         this.companyAddress = companyAddress;
-    }
+    }*/
 
     @Override
     public String toString() {
