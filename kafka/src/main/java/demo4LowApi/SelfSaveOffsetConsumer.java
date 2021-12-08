@@ -35,39 +35,55 @@ public class SelfSaveOffsetConsumer {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList("zhaofq_test1019"));
-        while (true) {
-            // 当 拉取的时间1s一次时，控制台可以看出分区存在被多次输出
-            ConsumerRecords<String, String> allRecoreds = consumer.poll(Duration.ofSeconds(1));
-//            ConsumerRecords<String, String> allRecoreds = consumer.poll(Duration.ofMillis(100));
-            // consumer.assignment(); 放在循环内部是应对： 分区再平衡时，可以感知consumer与 topicPartition之间的关系
-            // 后续会在 subcribe()中解决该问题
-            Set<TopicPartition> assignment = consumer.assignment();
-            for (TopicPartition topicPartition : assignment) {
-                // 获取 topic partition 的 offset
-                Long offset = DBUtils.getTopicPartitionOffest(topicPartition);
-                //确定 开始获取数据的位置
+
+        //修改为首次运行去查找offset
+        consumer.poll(Duration.ofSeconds(5));
+        Set<TopicPartition> assignment = consumer.assignment();
+        for (TopicPartition topicPartition : assignment) {
+            // 获取 topic partition 的 offset
+            Long offset = DBUtils.getTopicPartitionOffest(topicPartition);
+            //确定 开始获取数据的位置
 //                System.out.println(topicPartition.topic()+" partition= "+topicPartition.partition()+"offset = "+offset);
-                consumer.seek(topicPartition, offset);
-            }
-            System.out.println("============" + allRecoreds.partitions().size());
-            for (TopicPartition partition : allRecoreds.partitions()) {
-                List<ConsumerRecord<String, String>> partitionRecords = allRecoreds.records(partition);
-                for (ConsumerRecord<String, String> partitionRecord : partitionRecords) {
-                    if (partitionRecord.value() != null) {
-                        System.out.println("topic\t=\t" + partitionRecord.topic() +
-                                "\tpartition=\t" + partitionRecord.partition() +
-                                "\toffset=\t" + partitionRecord.offset() +
-                                "\tvalue=\t" + partitionRecord.value());
+            consumer.seek(topicPartition, offset);
+        }
+
+        try {
+            while (true) {
+                // 当 拉取的时间1s一次时，控制台可以看出分区存在被多次输出
+                ConsumerRecords<String, String> allRecoreds = consumer.poll(Duration.ofSeconds(1));
+    //            ConsumerRecords<String, String> allRecoreds = consumer.poll(Duration.ofMillis(100));
+                // consumer.assignment(); 放在循环内部是应对： 分区再平衡时，可以感知consumer与 topicPartition之间的关系
+                // 后续会在 subcribe()中解决该问题
+                /*Set<TopicPartition> assignment = consumer.assignment();
+                for (TopicPartition topicPartition : assignment) {
+                    // 获取 topic partition 的 offset
+                    Long offset = DBUtils.getTopicPartitionOffest(topicPartition);
+                    //确定 开始获取数据的位置
+    //                System.out.println(topicPartition.topic()+" partition= "+topicPartition.partition()+"offset = "+offset);
+                    consumer.seek(topicPartition, offset);
+                }*/
+                System.out.println("============" + allRecoreds.partitions().size());
+                for (TopicPartition partition : allRecoreds.partitions()) {
+                    List<ConsumerRecord<String, String>> partitionRecords = allRecoreds.records(partition);
+                    for (ConsumerRecord<String, String> partitionRecord : partitionRecords) {
+                        if (partitionRecord.value() != null) {
+                            System.out.println("topic\t=\t" + partitionRecord.topic() +
+                                    "\tpartition=\t" + partitionRecord.partition() +
+                                    "\toffset=\t" + partitionRecord.offset() +
+                                    "\tvalue=\t" + partitionRecord.value());
+                        }
+                    }
+                    //消费结束以后，存储 每个 topic partition 的 最大 offset
+                    if (partitionRecords.size() < 1) {
+                        continue;
+                    } else {
+                        //  offset +1 是为了指定下一次消费的offset位置
+                        DBUtils.storeTopicPartitionOffset(partition, partitionRecords.get(partitionRecords.size() - 1).offset() + 1);
                     }
                 }
-                //消费结束以后，存储 每个 topic partition 的 最大 offset
-                if (partitionRecords.size() < 1) {
-                    continue;
-                } else {
-                    //  offset +1 是为了指定下一次消费的offset位置
-                    DBUtils.storeTopicPartitionOffset(partition, partitionRecords.get(partitionRecords.size() - 1).offset() + 1);
-                }
             }
+        } finally {
+            consumer.close();
         }
 
     }
