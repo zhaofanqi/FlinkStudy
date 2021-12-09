@@ -16,8 +16,8 @@ public class ZfqProducer {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "tbds-172-16-122-50:9092");
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "zhaofq");
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
-        for (int i = 0; i < 100; i++) {
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>("zhaofq_test1019", i % 3, String.valueOf(i % 3), "zfqProducer");
+        for (int i = 0; i < 10; i++) {
+            ProducerRecord<String, String> record = new ProducerRecord<String, String>("zhaofq_test1019", i % 9, String.valueOf(i % 9), "zfqProducer");
             kafkaProducer.send(record);
         }
 
