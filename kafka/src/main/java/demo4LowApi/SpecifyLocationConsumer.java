@@ -37,10 +37,10 @@ public class SpecifyLocationConsumer {
         Set<TopicPartition> assignPartition = kafkaConsumer.assignment();
         for (TopicPartition topicPartition : assignPartition) {
             // 实现不同分区从不同位置开始消费
-            if (topicPartition.partition()<2){
-                kafkaConsumer.seek(topicPartition, 550);
+            if (topicPartition.partition()<=2){
+                kafkaConsumer.seek(topicPartition, 700);
             }else{
-                kafkaConsumer.seek(topicPartition, 1);
+                kafkaConsumer.seek(topicPartition, 100);
             }
         }
 
