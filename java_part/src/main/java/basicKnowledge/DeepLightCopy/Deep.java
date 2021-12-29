@@ -14,9 +14,17 @@ public class Deep implements Cloneable,Serializable {
     private Integer deepAge;
     private Mid mid;
 
+    /**
+     *     流的方式实现深复制
+     *     new 对象的方式实现深复制，但注意引用对象需要再次new噢
+     */
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        Object result=null;
+        Deep deep = new Deep(this.deepName, this.deepAge, new Mid(mid.getMidName()));
+//        Deep deep = new Deep(this.deepName, this.deepAge, this.mid);//这种方式不行，对象初始化给的是另外一个对象的引用
+        return deep;
+
+        /*Object result=null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -29,6 +37,6 @@ public class Deep implements Cloneable,Serializable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return result;
+        return result;*/
     }
 }
