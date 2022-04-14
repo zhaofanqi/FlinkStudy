@@ -4,6 +4,11 @@ flink接入hdfs kafka hive mysql 系统数据
 flink写出数据hdfs kafka hive mysql 到不同系统
 flink 批处理编码
 flink 流处理编码
+    1 获取一个执行环境（execution environment）；
+    2 加载/创建初始数据；
+    3 指定数据相关的转换；
+    4 指定计算结果的存储位置；
+    5 触发程序执行
 flink 常用算子练习
         tableAPI  SQL
 flink 中一些重要概念了解
