@@ -1,0 +1,7 @@
+zhangsan,/home,1000
+lisi,/home,2000
+wangwu,/home,3000
+zhangsan,/cart,4000
+zhangsan,/prod,5000
+wangwu,/prod,5000
+wangwu,/home,6000
