@@ -44,9 +44,9 @@ public class SpecifyTimeStampConsumer {
         //存储分区与时间关系
         Map<TopicPartition, Long> timeStampsToSearch = new HashMap<>();
         for (TopicPartition topicPartition : assignment) {
-//            timeStampsToSearch.put(topicPartition, System.currentTimeMillis()-1*24*60*60*1000);
+            timeStampsToSearch.put(topicPartition, System.currentTimeMillis()-1*2*60*60*1000);
             System.out.println(topicPartition);
-            timeStampsToSearch.put(topicPartition, 1638955120797L);
+//            timeStampsToSearch.put(topicPartition, 1638955120797L);
         }
 
 

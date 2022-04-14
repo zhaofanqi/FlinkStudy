@@ -30,6 +30,7 @@ public class MyCreateTopic {
         // 客户端执行操作
         CreateTopicsResult topicsResult = adminClient.createTopics(Collections.singleton(addTopic));
 
+
         try {
             topicsResult.all().get();
         } catch (InterruptedException e) {

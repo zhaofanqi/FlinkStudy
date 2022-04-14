@@ -4,11 +4,46 @@ kafka 生产者 生产数据
 kafka 消费者 消费数据
 
 kafka 手动控制消费 offset
+
+kafkaAdminClient实例操作topic
+
 kafka 生产速度与消费速度测试
+    bin/kafka-producer-perf-test.sh --topic zhaofq_temp2 --num-records 100 --record-size 10  --throughput -1 --producer-props bootstrap.servers=1002:9092 acks=1
+    throughput <0表示不限制吞吐量 >0 表示吞吐量上限
+    --num-records  消息条数
+    --record-size  消息大小 单位 B
+
+
+kafka 日志存储
+    1 为什么使用磁盘作为存储介质
+        顺序写磁盘效率高
+        使用页缓存[间断性强制刷盘]
+
+    2 具体消息的存储格式
+        logSegment 下一个日志文件 一个偏移量索引文件 一个时间戳索引文件
+
+    3 怎样能够快速检索到指定消息
+        时间戳-->偏移量--->偏移量索引文件--->日志文件
+        偏移量-->偏移量索引文件--->日志文件
+    4 消息的清理规则
+        压缩[针对key，取最新的key]
+        删除
+            时间 默认7天
+            大小 默认1GB
+            偏移量
+
+深入服务端：
+    延时处理
+        非JDK的 Timer 和 DelayQueue 采用基于时间轮实现的定时器(SystemTimer)
+    时间轮
+    控制器
+
+
 
 kafka模拟出现积压
 
 kafka的source
+
 kafka的sink
 
 
