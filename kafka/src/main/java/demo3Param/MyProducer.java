@@ -8,7 +8,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.serialization.StringSerializer;
-import test.StringTest;
+
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -81,8 +81,8 @@ public class MyProducer {
          */
         properties.put(ProducerConfig.LINGER_MS_CONFIG, 10 * 1000);
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-        String line = "";
-        line = StringTest.specifyLengthString(5, 'c');
+        String line = "aaa";
+//        line = StringTest.specifyLengthString(5, 'c');
         // 构建发送消息大小，consumer测试消费次数
         int count = 0;
         ProducerRecord<String, String> record;
