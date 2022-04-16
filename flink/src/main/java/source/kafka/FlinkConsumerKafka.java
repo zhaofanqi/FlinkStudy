@@ -14,6 +14,7 @@ import java.util.Properties;
 
 /**
  * flink从 kafka读取数据并直接打印
+ * TODO 因为公司环境使用遇到问题，暂时跳过接入kafka数据源
  */
 public class FlinkConsumerKafka {
     public static void main(String[] args) throws Exception {
