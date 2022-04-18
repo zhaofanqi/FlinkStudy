@@ -1,4 +1,4 @@
-package transform;
+package transform.basicTransform;
 
 import entity.Click;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -20,7 +20,8 @@ public class MyMap {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         //数据源接入
-        DataStreamSource<Click> sourceFile = env.fromElements(  new Click("zhaofq", "/home", 2000L), new Click("taoxp", "/home", 3000L));
+        DataStreamSource<Click> sourceFile = env.fromElements(  new Click("zhaofq", "/home", 2000L)
+                , new Click("taoxp", "/home", 3000L));
 
 
         // 数据转换
