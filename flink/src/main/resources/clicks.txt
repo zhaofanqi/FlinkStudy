@@ -1,7 +1,7 @@
-zhangsan,/home,1000
+zhangsan,/homeless,1000
 lisi,/home,2000
-wangwu,/home,3000
-zhangsan,/cart,4000
-zhangsan,/prod,5000
-wangwu,/prod,5000
-wangwu,/home,6000
+zhangsan,/xx,3000
+lisi,/cart,4000
+zhangsan,/product,5000
+lisi,/product,5000
+lisi,/rollback,6000
