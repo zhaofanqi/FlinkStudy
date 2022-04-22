@@ -1,10 +1,12 @@
 package sink;
 
+import entity.Click;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
 import org.apache.flink.connector.jdbc.JdbcStatementBuilder;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import java.sql.PreparedStatement;
@@ -23,12 +25,20 @@ public class MysqlSink {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        DataStreamSource<String> clicks = env.readTextFile("./flink/src/main/resources/clicks.txt");
+        SingleOutputStreamOperator<Click> clicks = env.readTextFile("./flink/src/main/resources/clicks.txt")
+                .map(x -> {
+                    String[] fields = x.split(",");
+                    return new Click(fields[0], fields[1], Long.parseLong(fields[2]));
+                });
 
 
-        DataStreamSink mysqlSink = clicks.addSink(JdbcSink.sink("insert into table_name(column_1,column_2) values (?,?)",
+
+        clicks.addSink(JdbcSink.sink("insert into table_name(user,url) values (?,?)",
                 // 自定义类实现 JdbcStatementBuilder
-                new MyJdbcStatementBuilder(),
+                ((statement,click)->{
+                    statement.setString(1,click.user);
+                    statement.setString(2,click.url);
+                }),
                 new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
                         .withUrl("jdbc:mysql://localhost:3306?dbName")
                         .withDriverName("com.mysql.jdbc.Driver")
@@ -41,14 +51,5 @@ public class MysqlSink {
 
 
     }
-    public static class  MyJdbcStatementBuilder implements JdbcStatementBuilder<String>{
-
-
-        @Override
-        public void accept(PreparedStatement preparedStatement, String s) throws SQLException {
-//            preparedStatement.setString(1,s);
-        }
-    }
-
 
 }
