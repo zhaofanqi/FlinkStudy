@@ -1,5 +1,7 @@
 package entity;
 
+import java.sql.Timestamp;
+
 /**
  * ClassName UrlCountEnd
  *
@@ -50,7 +52,7 @@ public class UrlCountEnd {
         return "UrlCountEnd{" +
                 "url='" + url + '\'' +
                 ", count=" + count +
-                ", windowEnd=" + windowEnd +
+                ", windowEnd=" +  new Timestamp(windowEnd) +
                 '}';
     }
 }
