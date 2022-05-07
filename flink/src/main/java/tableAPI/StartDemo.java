@@ -21,7 +21,9 @@ import static org.apache.flink.table.api.Expressions.$;
  *
  * @Auther: 赵繁旗
  * @Date: 2022/5/5 09:49
- * @Description:
+ * @Description:   表的创建 tableEnv.executeSql("createDDL") 得到虚拟表 ； tableEnv.fromDataStream(Stream) 得到表对象
+                    虚拟表与表对象的转换： tableEnv.createTemporaryView("fake_name",table_object); tableEnv.toDataStream(table_object);
+                    对于非追加的虚拟表转为流 tableEnv.toChangelogStream()
  */
 public class StartDemo {
     public static void main(String[] args) throws Exception {
@@ -58,6 +60,11 @@ public class StartDemo {
         Table clickTable2 = tableEnv.sqlQuery("select * from " + clickTable);
         tableEnv.toDataStream(clickTable2).print("select_2");
 
+        // 聚合转换
+        tableEnv.createTemporaryView("clickTable",clickTable);
+        Table aggResult = tableEnv.sqlQuery("select user,count(1) as cn from clickTable group by user");
+//        tableEnv.toDataStream(aggResult).print("agg"); // 因为 group by 涉及更新操作，而toDataStream是类似于追加的方式，从而会报错
+        tableEnv.toChangelogStream(aggResult).print("agg");// toChangelogStream 更底层的是 toRetractStream()
         // 将表中数据输出（需要转DataStream）；直接输出表为表结构
         // 6 任务执行
         env.execute();
