@@ -1,0 +1,16 @@
+zhangsan,/homeless,fail,1000
+lisi,/home,fail,2000
+zhangsan,/book&flink,fail,3000
+lisi,/cart,fail,4000
+zhangsan,/product,fail,5000
+lisi,/product,fail,5000
+lisi,/rollback&id=100,success,6000
+lisi,/rollback&id=100,fail,16000
+lisi,/book&flink,fail,13000
+lisi,/book&flink,fail,14000
+lisi,/rollback&id=100,success,15000
+zhangsan,/book&flink,fail,12000
+lisi,/book&flink,fail,12000
+lisi,/rollback&id=100,fail,11000
+lisi,/book&flink,fail,22000
+lisi,/book&flink,fail,26000

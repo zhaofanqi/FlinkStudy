@@ -1,7 +1,14 @@
 zhangsan,/homeless,1000
 lisi,/home,2000
-zhangsan,/xx,3000
+zhangsan,/book&flink,3000
 lisi,/cart,4000
 zhangsan,/product,5000
 lisi,/product,5000
-lisi,/rollback,6000
+lisi,/rollback&id=100,6000
+lisi,/rollback&id=100,16000
+lisi,/rollback&id=100,15000
+zhangsan,/book&flink,12000
+lisi,/book&flink,12000
+lisi,/rollback&id=100,11000
+lisi,/book&flink,22000
+lisi,/book&flink,26000
