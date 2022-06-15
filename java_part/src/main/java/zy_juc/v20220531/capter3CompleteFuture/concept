@@ -1,0 +1,25 @@
+Future:主线程开一个字线程，帮助主线程处理任务，并可获取子任务的执行状态和结果或取消任务。对应实现类FutureTask
+FutureTask的优点：结合线程池可实现异步处理任务，提升处理效率
+    缺点：get()会造成阻塞
+         isDone()会造成CPU空循环查询的浪费
+
+CompletableFuture 实现了 Future CompleteStage 。功能更强是FutureTask的升级版 因为 CompleteStage 丰富了功能，里面还结合了线程池
+            CompleteStage 四个核心静态方法 runAsync()  无返回值，可指定线程池或使用默认的 ForkJoinPool
+                                         supplyAsync() 有返回值（常用）可指定线程池或使用默认的 ForkJoinPool
+            不建议直接 new CompletableFuture.
+
+计算结果的获取
+    get getNow join complete()
+    applyToEither  选择计算速度最快的结果
+    thenCombine    对计算结果进行整合
+
+函数式编程：
+    名称      方法       输入参数      输出参数
+  Runnable    run         无           无
+  Function    apply       1            1
+  Consumer    accept      1            无
+  BiConsumer  accept      2            无
+  Supply      get         无            1
+
+函数式编程感受：将数据源转为数据流，然后按个处理，思想参考flink时的流失计算去编写。CompletableFuture的结果集需要再次 steram.map.collector得到最终的结果
+
